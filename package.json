@@ -1,0 +1,23 @@
+{
+  "name": "drupal-attribute",
+  "version": "0.1.0",
+  "description": "Drupal Attribute emulated in JavaScript",
+  "main": "src/index.js",
+  "scripts": {
+    "pretest": "npm prune && npm update",
+    "test": "tap test/*.js --cov --reporter=spec --100"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericmorand/drupal-attribute.git"
+  },
+  "author": "Eric MORAND",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ericmorand/drupal-attribute/issues"
+  },
+  "homepage": "https://github.com/ericmorand/drupal-attribute#readme",
+  "devDependencies": {
+    "tap": "^10.3.0"
+  }
+}
