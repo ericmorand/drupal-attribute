@@ -68,6 +68,7 @@ class DrupalAttribute extends Map {
   }
 
   toString() {
+    let result = '';
     let components = [];
 
     this.forEach(function (value, key) {
@@ -78,7 +79,13 @@ class DrupalAttribute extends Map {
       components.push([key, '"' + value + '"'].join('='));
     });
 
-    return components.join(' ');
+    let rendered = components.join(' ');
+
+    if (rendered) {
+      result += ' ' + rendered;
+    }
+
+    return result;
   }
 }
 

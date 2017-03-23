@@ -20,7 +20,7 @@ tap.test('toString', function(test) {
       .setAttribute('foo-bar', ['foo', 'bar'])
     ;
 
-    test.equal(attribute.toString(), 'foo="bar" bar="foo" foo-bar="foo bar"');
+    test.equal(attribute.toString(), ' foo="bar" bar="foo" foo-bar="foo bar"');
     test.end();
   });
 });
