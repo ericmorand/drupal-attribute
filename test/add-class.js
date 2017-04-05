@@ -2,7 +2,7 @@ const tap = require('tap');
 const DrupalAttribute = require('../src');
 
 tap.test('addClass', function(test) {
-  test.plan(4);
+  test.plan(5);
 
   test.test('should support method chaining', function(test) {
     let attribute = new DrupalAttribute();
@@ -41,6 +41,17 @@ tap.test('addClass', function(test) {
     ;
 
     test.same(attribute.get('class'), ['foo']);
+    test.end();
+  });
+
+  test.test('should accept being passed multiple parameters', function (test) {
+    let attribute = new DrupalAttribute();
+
+    attribute
+      .addClass('foo', 'bar', ['foo-bar'])
+    ;
+
+    test.same(attribute.get('class'), ['foo', 'bar', 'foo-bar']);
     test.end();
   });
 });
