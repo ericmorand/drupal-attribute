@@ -1,6 +1,6 @@
 {
   "name": "drupal-attribute",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Drupal Attribute emulated in JavaScript",
   "main": "src/index.js",
   "scripts": {
