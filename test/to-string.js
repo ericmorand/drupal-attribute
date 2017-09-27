@@ -11,7 +11,7 @@ tap.test('toString', function(test) {
     test.end();
   });
 
-  test.test('should return a valid HTML attribute string when at least on attribute has been set', function (test) {
+  test.test('should return a valid HTML attribute string when at least one attribute has been set', function (test) {
     let attribute = new DrupalAttributes();
 
     attribute
