@@ -7,14 +7,15 @@ tap.test('addClass', function(test) {
   test.test('should support method chaining', function(test) {
     let attribute = new DrupalAttribute();
 
-    test.equal(attribute.addClass('foo'), attribute);
+    attribute = attribute.addClass('foo');
+    test.equal(true, DrupalAttribute.prototype.isPrototypeOf(attribute));
     test.end();
   });
 
   test.test('should support being passed a string', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute
+    attribute = attribute
       .addClass('foo')
       .addClass('bar')
     ;
@@ -26,7 +27,7 @@ tap.test('addClass', function(test) {
   test.test('should support being passed an array', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute.addClass(['foo', 'bar']);
+    attribute = attribute.addClass(['foo', 'bar']);
 
     test.same(attribute.get('class'), ['foo', 'bar']);
     test.end();
@@ -35,7 +36,7 @@ tap.test('addClass', function(test) {
   test.test('should support adding an existing class', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute
+    attribute = attribute
       .addClass('foo')
       .addClass('foo')
     ;
@@ -47,7 +48,7 @@ tap.test('addClass', function(test) {
   test.test('should accept being passed multiple parameters', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute
+    attribute = attribute
       .addClass('foo', 'bar', ['foo-bar'])
     ;
 

@@ -8,7 +8,7 @@ class DrupalAttribute extends Map {
    * @returns {DrupalAttribute}
    */
   addClass(args) {
-    let self = this;
+    let instance = new DrupalAttribute(this);
     let values = [];
 
     for (let i = 0; i < arguments.length; i++) {
@@ -20,11 +20,11 @@ class DrupalAttribute extends Map {
         value = [value];
       }
 
-      if (!self.has('class')) {
-        self.setAttribute('class', []);
+      if (!instance.has('class')) {
+        instance.set('class', []);
       }
 
-      let classes = self.get('class');
+      let classes = instance.get('class');
 
       value.forEach(function (d) {
         if (classes.indexOf(d) < 0) {
@@ -33,13 +33,14 @@ class DrupalAttribute extends Map {
       });
     });
 
-    return this;
+    return instance;
   }
 
   removeClass(value) {
+    let instance = new DrupalAttribute(this);
     let classes = [];
 
-    if (this.has('class')) {
+    if (instance.has('class')) {
       classes = this.get('class');
     }
 
@@ -55,7 +56,7 @@ class DrupalAttribute extends Map {
       }
     });
 
-    return this;
+    return instance;
   }
 
   hasClass(value) {
@@ -69,15 +70,17 @@ class DrupalAttribute extends Map {
   }
 
   setAttribute(key, value) {
-    this.set(key, value);
+    let instance = new DrupalAttribute(this);
+    instance.set(key, value);
 
-    return this;
+    return instance;
   }
 
   removeAttribute(key) {
-    this.delete(key);
+    let instance = new DrupalAttribute(this);
+    instance.delete(key);
 
-    return this;
+    return instance;
   }
 
   toString() {

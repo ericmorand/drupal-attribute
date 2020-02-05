@@ -7,14 +7,15 @@ tap.test('removeClass', function(test) {
   test.test('should support method chaining', function(test) {
     let attribute = new DrupalAttribute();
 
-    test.equal(attribute.removeClass('foo'), attribute);
+    attribute = attribute.removeClass('foo');
+    test.equal(true, DrupalAttribute.prototype.isPrototypeOf(attribute));
     test.end();
   });
 
   test.test('should support being passed a string', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute
+    attribute = attribute
       .addClass('foo')
       .addClass('bar')
       .removeClass('bar')
@@ -27,7 +28,7 @@ tap.test('removeClass', function(test) {
   test.test('should support being passed an array', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute
+    attribute = attribute
       .addClass(['foo', 'bar', 'foo-bar'])
       .removeClass(['foo', 'foo-bar'])
     ;
@@ -39,7 +40,7 @@ tap.test('removeClass', function(test) {
   test.test('should support being called on an instance with no class set', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute
+    attribute = attribute
       .removeClass(['bar'])
     ;
 

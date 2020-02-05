@@ -7,7 +7,7 @@ tap.test('hasClass', function(test) {
   test.test('should support being passed a string', function (test) {
     let attribute = new DrupalAttribute();
 
-    attribute.addClass('foo');
+    attribute = attribute.addClass('foo');
 
     test.ok(attribute.hasClass('foo'));
     test.end();
