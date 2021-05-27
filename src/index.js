@@ -89,7 +89,7 @@ class DrupalAttribute extends Map {
         value = value.join(' ');
       }
 
-      components.push([key, '"' + value + '"'].join('='));
+      components.push([key, '"' + value.replace(/"/g, '&quot;') + '"'].join('='));
     });
 
     let rendered = components.join(' ');
