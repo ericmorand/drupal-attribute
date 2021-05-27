@@ -18,9 +18,10 @@ tap.test('toString', function(test) {
       .setAttribute('foo', 'bar')
       .setAttribute('bar', 'foo')
       .setAttribute('foo-bar', ['foo', 'bar'])
+      .setAttribute('foobar', '"foo bar"' )
     ;
 
-    test.equal(attribute.toString(), ' foo="bar" bar="foo" foo-bar="foo bar"');
+    test.equal(attribute.toString(), ' foo="bar" bar="foo" foo-bar="foo bar" foobar="&quot;foo bar&quot;"');
     test.end();
   });
 });
