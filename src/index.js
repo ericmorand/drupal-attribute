@@ -4,29 +4,33 @@ class DrupalAttribute extends Map {
   }
 
   /**
-   * @param {...String|Array} args
+   * @param {...string|string[]|Map} args
    * @returns {DrupalAttribute}
    */
-  addClass(args) {
+  addClass(...args) {
     let self = this;
-    let values = [];
 
-    for (let i = 0; i < arguments.length; i++) {
-      values.push(arguments[i]);
-    }
+    args.forEach(function (value) {
+      // Handle Maps by converting to array of value.
+      if (value instanceof Map) {
+        value = Array.from(value.values());
+      }
 
-    values.forEach(function (value) {
       if (!Array.isArray(value)) {
         value = [value];
       }
 
       if (!self.has('class')) {
-        self.setAttribute('class', []);
+        self.set('class', []);
       }
 
       let classes = self.get('class');
 
       value.forEach(function (d) {
+        if (d === null || d === undefined || d === '') {
+          return;
+        }
+        d = String(d);
         if (classes.indexOf(d) < 0) {
           classes.push(d);
         }
