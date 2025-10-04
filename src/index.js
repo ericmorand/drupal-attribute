@@ -4,29 +4,33 @@ class DrupalAttribute extends Map {
   }
 
   /**
-   * @param {...String|Array} args
+   * @param {...string|string[]|Map} args
    * @returns {DrupalAttribute}
    */
-  addClass(args) {
+  addClass(...args) {
     let self = this;
-    let values = [];
 
-    for (let i = 0; i < arguments.length; i++) {
-      values.push(arguments[i]);
-    }
+    args.forEach(function (value) {
+      // Handle Maps by converting to array of value.
+      if (value instanceof Map) {
+        value = Array.from(value.values());
+      }
 
-    values.forEach(function (value) {
       if (!Array.isArray(value)) {
         value = [value];
       }
 
       if (!self.has('class')) {
-        self.setAttribute('class', []);
+        self.set('class', []);
       }
 
       let classes = self.get('class');
 
       value.forEach(function (d) {
+        if (d === null || d === undefined || d === '') {
+          return;
+        }
+        d = String(d);
         if (classes.indexOf(d) < 0) {
           classes.push(d);
         }
@@ -69,6 +73,24 @@ class DrupalAttribute extends Map {
   }
 
   setAttribute(key, value) {
+    // Omit attribute for nullish / false values.
+    if (value === null || value === undefined || value === false) {
+      this.delete(key);
+      return this;
+    }
+
+    // Boolean true, render key="key".
+    if (value === true) {
+      this.set(key, key);
+      return this;
+    }
+
+    // Reuse addClass method.
+    if (key === 'class') {
+      this.addClass(value);
+      return this;
+    }
+
     this.set(key, value);
 
     return this;
@@ -81,31 +103,43 @@ class DrupalAttribute extends Map {
   }
 
   toString() {
-    let result = '';
     let components = [];
 
-    this.forEach(function (value, key) {
-      if (Array.isArray(value)) {
-        value = value.join(' ');
+    for (let key of this.keys()) {
+      let value = this.get(key);
+
+      // Skip nullish / falsey / empty attributes.
+      if (value === null || value === undefined || value === false || value === '') {
+        continue;
       }
 
-      components.push([key, '"' + value + '"'].join('='));
-    });
+      if (Array.isArray(value)) {
 
-    let rendered = components.join(' ');
+        // Remove nullish / empty values from array, and make sure all values
+        // are converted to strings.
+        const filtered = value
+          .filter(v => v !== null && v !== undefined && v !== '')
+          .map(String);
 
-    if (rendered) {
-      result += ' ' + rendered;
+        // Skip empty arrays.
+        if (filtered.length === 0) {
+          continue;
+        }
+
+        value = filtered.join(' ');
+      }
+
+      components.push(`${key}="${String(value)}"`);
     }
 
-    return result;
+    return components.length ? ' ' + components.join(' ') : '';
   }
 
   /**
    * Merge another DrupalAttribute instance into this one.
    * @param {DrupalAttribute} collection
    * @returns {DrupalAttribute}
-  */
+   */
   merge(collection) {
     // Convert both the current attributes and the input collection's attributes to plain objects.
     let currentAttributes = Object.fromEntries(this);
@@ -122,7 +156,7 @@ class DrupalAttribute extends Map {
 
     return this;
   }
-  
+
   // Helper function for deep merging.
   mergeDeep(target, source) {
     for (let key in source) {
